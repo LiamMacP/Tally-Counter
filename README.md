@@ -1,4 +1,4 @@
-# Tally Counter 
+# Tally Counter ![](https://github.com/liammacp/tally-counter/workflows/testing/badge.svg)
 
 Tally Counter is a *simple* open source [tally counter](https://en.wikipedia.org/wiki/Tally_counter) application for Android. It is designed to make counting easier. It provides the ability to have multiple independent tally counters with their own names and values.
 
