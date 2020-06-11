@@ -22,8 +22,8 @@ jobs:
 
       # Lint code
       - name: Run Android Linter
-        run: ./gradlew lintStagingDebug
+        run: ./gradlew lintDebug
 
       # Run unit tests
       - name: Run Unit Tests
-        run: ./gradlew testStagingDebugUnitTest
+        run: ./gradlew testDebugUnitTest
