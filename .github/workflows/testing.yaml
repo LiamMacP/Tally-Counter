@@ -6,11 +6,10 @@ on:
       - master
 
 jobs:
-  testing:
-    name: Lint Check and Testing
-
+  lint-testing:
+    name: Lint Check
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Clone Repo
         uses: actions/checkout@v1
@@ -23,6 +22,19 @@ jobs:
       # Lint code
       - name: Run Android Linter
         run: ./gradlew lintDebug
+
+  unit-testing:
+    name: Unit Testing
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v1
+
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
 
       # Run unit tests
       - name: Run Unit Tests
