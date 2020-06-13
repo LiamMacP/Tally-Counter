@@ -1,0 +1,48 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "e991a8edb186d22eede7354768a0cc1f",
+    "entities": [
+      {
+        "tableName": "counters",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT DEFAULT '', `value` INTEGER DEFAULT 0)",
+        "fields": [
+          {
+            "fieldPath": "uid",
+            "columnName": "uid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
+            "affinity": "INTEGER",
+            "notNull": false,
+            "defaultValue": "0"
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "uid"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e991a8edb186d22eede7354768a0cc1f')"
+    ]
+  }
+}
