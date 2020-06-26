@@ -1,4 +1,4 @@
-package opensource.liamm.tallycounter.data.repository;
+package opensource.liamm.tallycounter.data.db.dao;
 
 import android.content.Context;
 
@@ -13,7 +13,9 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
-import opensource.liamm.tallycounter.data.repository.entity.IntegerCounter;
+import opensource.liamm.tallycounter.data.db.database.AppDatabase;
+import opensource.liamm.tallycounter.data.db.entity.IntegerCounter;
+import opensource.liamm.tallycounter.data.db.exceptions.InvalidCounterNameException;
 import opensource.liamm.tallycounter.utils.StringUtils;
 
 @RunWith(AndroidJUnit4.class)
@@ -37,7 +39,8 @@ public class IntegerCounterDaoTest {
 
         database.integerCounterDao().insertCounter(integerCounter);
 
-        List<IntegerCounter> counters = database.integerCounterDao().getAllCounters();
+        List<IntegerCounter> counters = database.integerCounterDao().getAllCounters().getValue();
+        assert (counters != null);
         assert (!counters.isEmpty());
     }
 
@@ -47,28 +50,28 @@ public class IntegerCounterDaoTest {
 
         database.integerCounterDao().insertCounter(integerCounter);
 
-        IntegerCounter testIntegerCounter = database.integerCounterDao().getCounterById(integerCounter.uid);
+        IntegerCounter testIntegerCounter = database.integerCounterDao().getCounterById(integerCounter.getId()).getValue();
 
         assert (testIntegerCounter != null);
-        assert (integerCounter.uid == testIntegerCounter.uid);
+        assert (integerCounter.getId() == testIntegerCounter.getId());
     }
 
     @Test
-    public void updateCounterSavesData() {
+    public void updateCounterSavesData() throws InvalidCounterNameException {
         IntegerCounter integerCounter = new IntegerCounter();
 
         database.integerCounterDao().insertCounter(integerCounter);
 
-        IntegerCounter testIntegerCounter = database.integerCounterDao().getCounterById(integerCounter.uid);
+        IntegerCounter testIntegerCounter = database.integerCounterDao().getCounterById(integerCounter.getId()).getValue();
         assert (testIntegerCounter != null);
-        assert (testIntegerCounter.name.equals(StringUtils.EMPTY));
+        assert (testIntegerCounter.getName().equals(StringUtils.EMPTY));
 
-        integerCounter.name = "Test";
+        integerCounter.setName("Test");
         database.integerCounterDao().updateCounter(integerCounter);
 
-        testIntegerCounter = database.integerCounterDao().getCounterById(integerCounter.uid);
+        testIntegerCounter = database.integerCounterDao().getCounterById(integerCounter.getId()).getValue();
         assert (testIntegerCounter != null);
-        assert (testIntegerCounter.name.equals("Test"));
+        assert (testIntegerCounter.getName().equals("Test"));
     }
 
     @Test
@@ -76,12 +79,14 @@ public class IntegerCounterDaoTest {
         IntegerCounter integerCounter = new IntegerCounter();
         database.integerCounterDao().insertCounter(integerCounter);
 
-        List<IntegerCounter> counters = database.integerCounterDao().getAllCounters();
+        List<IntegerCounter> counters = database.integerCounterDao().getAllCounters().getValue();
+        assert (counters != null);
         assert (!counters.isEmpty());
 
         database.integerCounterDao().deleteAll();
 
-        counters = database.integerCounterDao().getAllCounters();
+        counters = database.integerCounterDao().getAllCounters().getValue();
+        assert (counters != null);
         assert (counters.isEmpty());
     }
 
@@ -90,12 +95,14 @@ public class IntegerCounterDaoTest {
         IntegerCounter integerCounter = new IntegerCounter();
         database.integerCounterDao().insertCounter(integerCounter);
 
-        List<IntegerCounter> counters = database.integerCounterDao().getAllCounters();
+        List<IntegerCounter> counters = database.integerCounterDao().getAllCounters().getValue();
+        assert (counters != null);
         assert (!counters.isEmpty());
 
-        database.integerCounterDao().delete(integerCounter);
+        database.integerCounterDao().deleteCounter(integerCounter);
 
-        counters = database.integerCounterDao().getAllCounters();
+        counters = database.integerCounterDao().getAllCounters().getValue();
+        assert (counters != null);
         assert (counters.isEmpty());
     }
 }
