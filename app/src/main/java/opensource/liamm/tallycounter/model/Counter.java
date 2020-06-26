@@ -1,8 +1,8 @@
-package opensource.liamm.tallycounter.data.model;
+package opensource.liamm.tallycounter.model;
 
 import androidx.annotation.NonNull;
 
-import opensource.liamm.tallycounter.data.InvalidCounterNameException;
+import opensource.liamm.tallycounter.data.db.exceptions.InvalidCounterNameException;
 
 /**
  * Interface for a counter with a specified type.

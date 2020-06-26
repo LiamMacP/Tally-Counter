@@ -1,22 +1,46 @@
 package opensource.liamm.tallycounter.ui.main.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 
+import opensource.liamm.tallycounter.Application;
 import opensource.liamm.tallycounter.R;
-import opensource.liamm.tallycounter.ui.main.fragment.MainFragment;
+import opensource.liamm.tallycounter.ui.main.fragment.CounterFragment;
+import opensource.liamm.tallycounter.ui.main.viewmodel.MainViewModel;
+import opensource.liamm.tallycounter.ui.main.viewmodel.MainViewModelFactory;
 
 public class MainActivity extends AppCompatActivity {
+
+    private MainViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+
+        mViewModel = new ViewModelProvider(this, MainViewModelFactory.getInstance(Application.getInstance())).get(MainViewModel.class);
+        mViewModel.getTitle().observe(this, new TitleObserver());
+
         if (savedInstanceState == null) {
+            CounterFragment counterFragment = CounterFragment.newInstance();
+
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, MainFragment.newInstance())
+                    .replace(R.id.container, counterFragment, CounterFragment.TAG)
                     .commitNow();
         }
+
+        mViewModel.setTitle("test");
     }
+
+    private class TitleObserver implements Observer<String> {
+        @Override
+        public void onChanged(@NonNull String s) {
+            setTitle(s);
+        }
+    }
+
 }

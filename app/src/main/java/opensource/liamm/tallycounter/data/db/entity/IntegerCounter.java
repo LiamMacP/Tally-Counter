@@ -1,54 +1,55 @@
-package opensource.liamm.tallycounter.data.model;
+package opensource.liamm.tallycounter.data.db.entity;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
-import opensource.liamm.tallycounter.data.InvalidCounterNameException;
+import opensource.liamm.tallycounter.data.db.exceptions.InvalidCounterNameException;
+import opensource.liamm.tallycounter.model.Counter;
 import opensource.liamm.tallycounter.utils.StringUtils;
 
+@Entity(tableName = "counters")
 public class IntegerCounter implements Counter<Integer> {
 
-    private int uid;
+    @PrimaryKey(autoGenerate = true)
+    private int id;
 
+    @ColumnInfo(defaultValue = StringUtils.EMPTY)
     @NonNull
     private String name;
 
+    @ColumnInfo(defaultValue = "0")
     @NonNull
     private Integer value;
 
     public IntegerCounter() {
-        this.uid = 0;
         this.name = StringUtils.EMPTY;
         this.value = 0;
     }
 
-    public IntegerCounter(@NonNull final String name) throws InvalidCounterNameException {
-        if (name.isEmpty()) {
-            throw new InvalidCounterNameException("Provided name is not valid");
-        }
-
-        this.uid = 0;
-        this.name = name;
-        this.value = 0;
-    }
-
-    public IntegerCounter(@NonNull final String name, @NonNull final Integer value) throws InvalidCounterNameException {
-        if (name.isEmpty()) {
-            throw new InvalidCounterNameException("Provided name is not valid");
-        }
-
-        this.uid = 0;
+    @Ignore
+    public IntegerCounter(int id, @NonNull String name, @NonNull Integer value) {
+        this.id = id;
         this.name = name;
         this.value = value;
     }
 
+    public IntegerCounter(IntegerCounter counter) {
+        this.id = counter.id;
+        this.name = counter.name;
+        this.value = counter.value;
+    }
+
     @Override
     public int getId() {
-        return this.uid;
+        return this.id;
     }
 
     @Override
     public void setId(int id) {
-        this.uid = id;
+        this.id = id;
     }
 
     @NonNull
