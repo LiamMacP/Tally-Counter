@@ -8,15 +8,16 @@ import androidx.room.PrimaryKey;
 
 import opensource.liamm.tallycounter.data.db.exceptions.InvalidCounterNameException;
 import opensource.liamm.tallycounter.model.Counter;
-import opensource.liamm.tallycounter.utils.StringUtils;
 
 @Entity(tableName = "counters")
 public class IntegerCounter implements Counter<Integer> {
 
+    private static final String DEFAULT_NAME = "Counter";
+
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    @ColumnInfo(defaultValue = StringUtils.EMPTY)
+    @ColumnInfo(defaultValue = DEFAULT_NAME)
     @NonNull
     private String name;
 
@@ -25,7 +26,7 @@ public class IntegerCounter implements Counter<Integer> {
     private Integer value;
 
     public IntegerCounter() {
-        this.name = StringUtils.EMPTY;
+        this.name = DEFAULT_NAME;
         this.value = 0;
     }
 
