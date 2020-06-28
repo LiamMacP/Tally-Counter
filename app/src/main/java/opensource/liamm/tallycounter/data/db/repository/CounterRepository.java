@@ -4,6 +4,8 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import java.util.List;
+
 import opensource.liamm.tallycounter.data.db.database.AppDatabase;
 import opensource.liamm.tallycounter.data.db.dao.IntegerCounterDao;
 import opensource.liamm.tallycounter.data.db.entity.IntegerCounter;
@@ -30,13 +32,27 @@ public class CounterRepository implements ICounterRepository {
         return instance;
     }
 
-    public LiveData<IntegerCounter> getCounterById(int id) {
+    @Override
+    public LiveData<IntegerCounter> getCounterById(final long id) {
         return mIntegerCounterDao.getCounterById(id);
     }
 
+    @Override
+    public LiveData<List<IntegerCounter>> getAllCounters() {
+        return mIntegerCounterDao.getAllCounters();
+    }
+
+    @Override
     public void insertCounter(IntegerCounter integerCounter) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             mIntegerCounterDao.insertCounter(integerCounter);
+        });
+    }
+
+    @Override
+    public void updateCounter(IntegerCounter integerCounter) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mIntegerCounterDao.updateCounter(integerCounter);
         });
     }
 }
