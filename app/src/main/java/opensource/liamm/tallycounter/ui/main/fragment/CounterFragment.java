@@ -1,5 +1,6 @@
 package opensource.liamm.tallycounter.ui.main.fragment;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -14,9 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.EventListener;
+
 import opensource.liamm.tallycounter.Application;
 import opensource.liamm.tallycounter.R;
 import opensource.liamm.tallycounter.data.db.entity.IntegerCounter;
+import opensource.liamm.tallycounter.databinding.MainFragmentBinding;
+import opensource.liamm.tallycounter.ui.main.eventhandlers.ClickListener;
 import opensource.liamm.tallycounter.ui.main.viewmodel.MainViewModel;
 import opensource.liamm.tallycounter.ui.main.viewmodel.MainViewModelFactory;
 
@@ -25,17 +30,18 @@ public class CounterFragment extends Fragment {
     public static final String TAG = CounterFragment.class.getSimpleName();
 
     private MainViewModel mViewModel;
-    private IntegerCounter mIntegerCounter;
-
-    public static CounterFragment newInstance() {
-        return new CounterFragment();
-    }
+    private MainFragmentBinding mBinding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.main_fragment, container, false);
+        mBinding = DataBindingUtil.inflate(
+                inflater, R.layout.main_fragment, container, false);
+
+        mBinding.setLifecycleOwner(this);
+
+        return mBinding.getRoot();
     }
 
     @Override
@@ -43,27 +49,21 @@ public class CounterFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         mViewModel = new ViewModelProvider(this, MainViewModelFactory.getInstance(Application.getInstance())).get(MainViewModel.class);
-        mViewModel.getCounter().observe(getViewLifecycleOwner(), new CounterObserver());
 
-        //TODO: Get Id from Preferences
-        mViewModel.loadCounter(1);
+        mBinding.setMainViewModel(mViewModel);
+        mBinding.setClickhandler(new ClickListener());
+
+        mViewModel.getCurrentCounter().observe(getViewLifecycleOwner(), new CounterObserver());
+
     }
 
     private class CounterObserver implements Observer<IntegerCounter> {
-
         @Override
         public void onChanged(IntegerCounter integerCounter) {
-            mIntegerCounter = integerCounter;
+            if (integerCounter == null) { return; }
 
-            mViewModel.setTitle(mIntegerCounter.getName() + "ET");
+            mViewModel.setTitle(integerCounter.getName());
         }
-
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-
-    }
 }

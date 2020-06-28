@@ -1,6 +1,7 @@
 package opensource.liamm.tallycounter.data.db.dao;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -15,13 +16,13 @@ import opensource.liamm.tallycounter.data.db.entity.IntegerCounter;
 @Dao
 public interface IntegerCounterDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertCounter(IntegerCounter integerCounters);
+    long insertCounter(IntegerCounter integerCounters);
 
     @Query("SELECT * FROM counters")
     LiveData<List<IntegerCounter>> getAllCounters();
 
-    @Query("SELECT * FROM counters WHERE rowid = :counterId")
-    LiveData<IntegerCounter> getCounterById(int counterId);
+    @Query("SELECT * FROM counters WHERE id = :counterId")
+    LiveData<IntegerCounter> getCounterById(final long counterId);
 
     @Update
     void updateCounter(IntegerCounter integerCounters);
