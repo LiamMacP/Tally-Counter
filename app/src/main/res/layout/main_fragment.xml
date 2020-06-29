@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="clickhandler"
             type="opensource.liamm.tallycounter.ui.main.eventhandlers.ClickListener" />
+
         <variable
             name="mainViewModel"
             type="opensource.liamm.tallycounter.ui.main.viewmodel.MainViewModel" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="16dp"
         tools:context=".ui.main.fragment.CounterFragment">
 
         <TextView
             android:id="@+id/message"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:gravity="center_horizontal"
-            android:onClick="@{() -> clickhandler.onValueClick(mainViewModel)}"
+            android:gravity="center"
+            android:onClick="@{() -> clickhandler.onIncrementClick(mainViewModel)}"
             android:text="@{String.valueOf(mainViewModel.currentCounter.value)}"
             android:textAlignment="center"
             app:autoSizeTextType="uniform"
@@ -34,6 +39,7 @@
             android:id="@+id/counter_button_constraintlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,21 +49,34 @@
                 android:id="@+id/decrement_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Button"
-                app:layout_constraintBottom_toBottomOf="@id/counter_button_constraintlayout"
-                app:layout_constraintEnd_toStartOf="@id/increment_button"
-                app:layout_constraintStart_toStartOf="@id/counter_button_constraintlayout"
-                app:layout_constraintTop_toTopOf="@id/counter_button_constraintlayout" />
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:background="#FF4D4D"
+                android:onClick="@{() -> clickhandler.onDecrementClick(mainViewModel)}"
+                android:text="-"
+                android:textColor="@android:color/white"
+                android:textSize="40sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/increment_button"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/increment_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Button"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:background="#4D7FFF"
+                android:onClick="@{() -> clickhandler.onIncrementClick(mainViewModel)}"
+                android:text="+"
+                android:textColor="@android:color/white"
+                android:textSize="40sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="parent"
-                app:layout_constraintStart_toEndOf="@id/decrement_button"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintLeft_toRightOf="@+id/decrement_button"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

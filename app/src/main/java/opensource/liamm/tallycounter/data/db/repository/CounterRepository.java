@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import opensource.liamm.tallycounter.data.db.database.AppDatabase;
 import opensource.liamm.tallycounter.data.db.dao.IntegerCounterDao;
 import opensource.liamm.tallycounter.data.db.entity.IntegerCounter;
@@ -33,7 +35,7 @@ public class CounterRepository implements ICounterRepository {
     }
 
     @Override
-    public LiveData<IntegerCounter> getCounterById(final long id) {
+    public Maybe<IntegerCounter> getCounterById(final long id) {
         return mIntegerCounterDao.getCounterById(id);
     }
 
@@ -43,16 +45,13 @@ public class CounterRepository implements ICounterRepository {
     }
 
     @Override
-    public void insertCounter(IntegerCounter integerCounter) {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            mIntegerCounterDao.insertCounter(integerCounter);
-        });
+    public Completable insertCounter(IntegerCounter integerCounter) {
+        return mIntegerCounterDao.insertCounter(integerCounter);
     }
 
     @Override
-    public void updateCounter(IntegerCounter integerCounter) {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            mIntegerCounterDao.updateCounter(integerCounter);
-        });
+    public Completable updateCounter(IntegerCounter integerCounter) {
+        return mIntegerCounterDao.updateCounter(integerCounter);
     }
+
 }

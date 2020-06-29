@@ -4,16 +4,18 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import opensource.liamm.tallycounter.data.db.entity.IntegerCounter;
 
 public interface ICounterRepository {
 
-    LiveData<IntegerCounter> getCounterById(final long id);
+    Maybe<IntegerCounter> getCounterById(final long id);
 
     LiveData<List<IntegerCounter>> getAllCounters();
 
-    void insertCounter(IntegerCounter integerCounter);
+    Completable insertCounter(IntegerCounter integerCounter);
 
-    void updateCounter(IntegerCounter integerCounter);
+    Completable updateCounter(IntegerCounter integerCounter);
 
 }

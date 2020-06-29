@@ -4,7 +4,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,8 +13,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.EventListener;
 
 import opensource.liamm.tallycounter.Application;
 import opensource.liamm.tallycounter.R;
@@ -31,6 +28,8 @@ public class CounterFragment extends Fragment {
 
     private MainViewModel mViewModel;
     private MainFragmentBinding mBinding;
+
+    public static CounterFragment newInstance() { return new CounterFragment(); }
 
     @Nullable
     @Override
@@ -53,8 +52,9 @@ public class CounterFragment extends Fragment {
         mBinding.setMainViewModel(mViewModel);
         mBinding.setClickhandler(new ClickListener());
 
-        mViewModel.getCurrentCounter().observe(getViewLifecycleOwner(), new CounterObserver());
+        mViewModel.loadCounterById(1);
 
+        mViewModel.getCurrentCounter().observe(getViewLifecycleOwner(), new CounterObserver());
     }
 
     private class CounterObserver implements Observer<IntegerCounter> {

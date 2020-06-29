@@ -1,15 +1,14 @@
 package opensource.liamm.tallycounter.ui.main.viewmodel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
-import java.util.List;
-
+import opensource.liamm.tallycounter.data.db.database.AppDatabase;
 import opensource.liamm.tallycounter.data.db.entity.IntegerCounter;
 import opensource.liamm.tallycounter.data.db.repository.CounterRepository;
 import opensource.liamm.tallycounter.data.db.repository.ICounterRepository;
@@ -17,7 +16,7 @@ import opensource.liamm.tallycounter.data.db.repository.ICounterRepository;
 public class MainViewModel extends ViewModel {
 
     private ICounterRepository mCounterRepository;
-    private LiveData<IntegerCounter> mCurrentIntegerCounter;
+    private MutableLiveData<IntegerCounter> mCurrentIntegerCounter;
     private MutableLiveData<String> mTitle;
 
     public MainViewModel(Application application) {
@@ -30,17 +29,20 @@ public class MainViewModel extends ViewModel {
         return mCurrentIntegerCounter;
     }
 
-    /*public void setCurrentCounter(IntegerCounter integerCounter) {
-        this.mCurrentIntegerCounter.postValue(integerCounter);
-    }*/
-
     public void loadCounterById(final long id) {
-        this.mCurrentIntegerCounter = this.mCounterRepository.getCounterById(id);
+        AppDatabase.databaseWriteExecutor.execute(() ->
+                this.mCounterRepository.getCounterById(id).subscribe(
+                        integerCounterLiveData -> mCurrentIntegerCounter.postValue(integerCounterLiveData),
+                        throwable -> Log.d("MainViewModel", "loadCounterById: Could not retrieve value from database."),
+                        () -> createCounter(new IntegerCounter()))
+                .dispose());
     }
 
     public void createCounter(IntegerCounter integerCounter) {
-        this.mCounterRepository.insertCounter(integerCounter);
-        //this.mCurrentIntegerCounter.postValue(integerCounter);
+        this.mCounterRepository
+                .insertCounter(integerCounter)
+                .subscribe(() -> mCurrentIntegerCounter.postValue(integerCounter))
+                .dispose();
     }
 
     public void incrementCounter() {
@@ -48,7 +50,24 @@ public class MainViewModel extends ViewModel {
 
         if (integerCounter != null) {
             integerCounter.increment();
-            this.mCounterRepository.updateCounter(integerCounter);
+
+            AppDatabase.databaseWriteExecutor.execute(() -> this.mCounterRepository
+                    .updateCounter(integerCounter)
+                    .subscribe(() -> mCurrentIntegerCounter.postValue(integerCounter))
+                    .dispose());
+        }
+    }
+
+    public void decrementCounter() {
+        IntegerCounter integerCounter = mCurrentIntegerCounter.getValue();
+
+        if (integerCounter != null) {
+            integerCounter.decrement();
+
+            AppDatabase.databaseWriteExecutor.execute(() -> this.mCounterRepository
+                    .updateCounter(integerCounter)
+                    .subscribe(() -> mCurrentIntegerCounter.postValue(integerCounter))
+                    .dispose());
         }
     }
 
