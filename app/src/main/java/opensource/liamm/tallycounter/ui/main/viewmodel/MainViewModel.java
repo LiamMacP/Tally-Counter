@@ -12,6 +12,7 @@ import opensource.liamm.tallycounter.data.db.database.AppDatabase;
 import opensource.liamm.tallycounter.data.db.entity.IntegerCounter;
 import opensource.liamm.tallycounter.data.db.repository.CounterRepository;
 import opensource.liamm.tallycounter.data.db.repository.ICounterRepository;
+import opensource.liamm.tallycounter.utils.StringUtils;
 
 public class MainViewModel extends ViewModel {
 
@@ -30,7 +31,7 @@ public class MainViewModel extends ViewModel {
     }
 
     public void loadCounterById(final long id) {
-        AppDatabase.databaseWriteExecutor.execute(() ->
+        AppDatabase.databaseReadWriteExecutor.execute(() ->
                 this.mCounterRepository.getCounterById(id).subscribe(
                         integerCounterLiveData -> mCurrentIntegerCounter.postValue(integerCounterLiveData),
                         throwable -> Log.d("MainViewModel", "loadCounterById: Could not retrieve value from database."),
@@ -51,7 +52,7 @@ public class MainViewModel extends ViewModel {
         if (integerCounter != null) {
             integerCounter.increment();
 
-            AppDatabase.databaseWriteExecutor.execute(() -> this.mCounterRepository
+            AppDatabase.databaseReadWriteExecutor.execute(() -> this.mCounterRepository
                     .updateCounter(integerCounter)
                     .subscribe(() -> mCurrentIntegerCounter.postValue(integerCounter))
                     .dispose());
@@ -64,7 +65,7 @@ public class MainViewModel extends ViewModel {
         if (integerCounter != null) {
             integerCounter.decrement();
 
-            AppDatabase.databaseWriteExecutor.execute(() -> this.mCounterRepository
+            AppDatabase.databaseReadWriteExecutor.execute(() -> this.mCounterRepository
                     .updateCounter(integerCounter)
                     .subscribe(() -> mCurrentIntegerCounter.postValue(integerCounter))
                     .dispose());

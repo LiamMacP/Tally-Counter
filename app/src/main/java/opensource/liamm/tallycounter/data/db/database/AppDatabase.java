@@ -21,7 +21,7 @@ public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase instance;
 
     private static final int NUMBER_OF_THREADS = 4;
-    public static final ExecutorService databaseWriteExecutor =
+    public static final ExecutorService databaseReadWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     public static synchronized AppDatabase getInstance(Context context) {

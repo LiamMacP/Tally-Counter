@@ -15,15 +15,13 @@ import opensource.liamm.tallycounter.ui.main.viewmodel.MainViewModelFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MainViewModel mViewModel;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        mViewModel = new ViewModelProvider(this, MainViewModelFactory.getInstance(Application.getInstance())).get(MainViewModel.class);
-        mViewModel.getTitle().observe(this, new TitleObserver());
+        MainViewModel viewModel = new ViewModelProvider(this, MainViewModelFactory.getInstance(Application.getInstance())).get(MainViewModel.class);
+        viewModel.getTitle().observe(this, new TitleObserver());
 
         if (savedInstanceState == null) {
             CounterFragment counterFragment = CounterFragment.newInstance();
@@ -32,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
                     .replace(R.id.container, counterFragment, CounterFragment.TAG)
                     .commitNow();
         }
-
-        mViewModel.setTitle("test");
     }
 
     private class TitleObserver implements Observer<String> {
