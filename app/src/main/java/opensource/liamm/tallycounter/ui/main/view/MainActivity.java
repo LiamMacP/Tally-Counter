@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import opensource.liamm.tallycounter.Application;
 import opensource.liamm.tallycounter.R;
+import opensource.liamm.tallycounter.data.db.entity.IntegerCounter;
 import opensource.liamm.tallycounter.ui.main.fragment.CounterFragment;
 import opensource.liamm.tallycounter.ui.main.viewmodel.MainViewModel;
 import opensource.liamm.tallycounter.ui.main.viewmodel.MainViewModelFactory;
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main_activity);
 
         MainViewModel viewModel = new ViewModelProvider(this, MainViewModelFactory.getInstance(Application.getInstance())).get(MainViewModel.class);
-        viewModel.getTitle().observe(this, new TitleObserver());
+        viewModel.getIntegerCounter().observe(this, new TitleObserver());
 
         if (savedInstanceState == null) {
             CounterFragment counterFragment = CounterFragment.newInstance();
@@ -32,10 +33,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class TitleObserver implements Observer<String> {
+    private class TitleObserver implements Observer<IntegerCounter> {
         @Override
-        public void onChanged(@NonNull String s) {
-            setTitle(s);
+        public void onChanged(@NonNull IntegerCounter integerCounter) {
+            setTitle(integerCounter.getName());
         }
     }
 

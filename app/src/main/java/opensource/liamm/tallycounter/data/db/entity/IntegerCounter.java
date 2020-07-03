@@ -15,7 +15,7 @@ public class IntegerCounter implements Counter<Integer> {
     private static final String DEFAULT_NAME = "Counter";
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private Long id;
 
     @ColumnInfo(defaultValue = DEFAULT_NAME)
     @NonNull
@@ -31,7 +31,7 @@ public class IntegerCounter implements Counter<Integer> {
     }
 
     @Ignore
-    public IntegerCounter(int id, @NonNull String name, @NonNull Integer value) {
+    public IntegerCounter(Long id, @NonNull String name, @NonNull Integer value) {
         this.id = id;
         this.name = name;
         this.value = value;
@@ -44,12 +44,12 @@ public class IntegerCounter implements Counter<Integer> {
     }
 
     @Override
-    public int getId() {
+    public Long getId() {
         return this.id;
     }
 
     @Override
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

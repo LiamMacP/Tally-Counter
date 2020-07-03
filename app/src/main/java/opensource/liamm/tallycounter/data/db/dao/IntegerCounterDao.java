@@ -1,6 +1,5 @@
 package opensource.liamm.tallycounter.data.db.dao;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -10,27 +9,36 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.Maybe;
+import io.reactivex.Single;
 import opensource.liamm.tallycounter.data.db.entity.IntegerCounter;
 
 @Dao
 public interface IntegerCounterDao {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insertCounter(IntegerCounter integerCounters);
+    Single<Long> insertCounter(IntegerCounter integerCounter);
 
     @Query("SELECT * FROM counters")
-    LiveData<List<IntegerCounter>> getAllCounters();
+    Flowable<List<IntegerCounter>> getAllCounters();
 
-    @Query("SELECT * FROM counters WHERE id = :counterId")
-    Maybe<IntegerCounter> getCounterById(final long counterId);
+    @Query("SELECT * FROM counters WHERE id = :id")
+    Flowable<IntegerCounter> getCounterById(final long id);
+
+    @Query("SELECT * FROM counters WHERE id = :id")
+    Maybe<IntegerCounter> checkIfCounterExists(final long id);
+
+    @Query("SELECT * FROM counters LIMIT 1")
+    Maybe<IntegerCounter> getFirstCounter();
 
     @Update
-    Completable updateCounter(IntegerCounter integerCounters);
+    void updateCounter(IntegerCounter integerCounter);
 
     @Delete
-    void deleteCounter(IntegerCounter integerCounters);
+    void deleteCounter(IntegerCounter integerCounter);
 
     @Query("DELETE FROM counters")
-    void deleteAll();
+    void deleteAllCounters();
+
 }

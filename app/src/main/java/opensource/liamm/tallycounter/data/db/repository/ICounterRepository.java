@@ -1,21 +1,28 @@
 package opensource.liamm.tallycounter.data.db.repository;
 
-import androidx.lifecycle.LiveData;
-
 import java.util.List;
 
-import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.Maybe;
+import io.reactivex.Single;
 import opensource.liamm.tallycounter.data.db.entity.IntegerCounter;
 
 public interface ICounterRepository {
 
-    Maybe<IntegerCounter> getCounterById(final long id);
+    Single<Long> insertCounter(IntegerCounter integerCounter);
 
-    LiveData<List<IntegerCounter>> getAllCounters();
+    Flowable<List<IntegerCounter>> getAllCounters();
 
-    Completable insertCounter(IntegerCounter integerCounter);
+    Flowable<IntegerCounter> getCounterById(final long id);
 
-    Completable updateCounter(IntegerCounter integerCounter);
+    Maybe<IntegerCounter> getFirstCounter();
+
+    Maybe<IntegerCounter> checkIfCounterExists(long id);
+
+    void updateCounter(IntegerCounter integerCounter);
+
+    void deleteCounter(IntegerCounter integerCounter);
+
+    void deleteAllCounters();
 
 }

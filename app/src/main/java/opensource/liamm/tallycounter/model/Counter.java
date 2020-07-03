@@ -14,12 +14,12 @@ public interface Counter<T> {
      * Gets the unique id of the counter
      * @return the id of the counter
      */
-    int getId();
+    Long getId();
 
     /**
      * Sets the unique id of the counter
      */
-    void setId(int id);
+    void setId(Long id);
 
     /**
      * Gets the name of the counter

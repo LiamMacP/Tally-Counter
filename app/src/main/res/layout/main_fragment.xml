@@ -27,7 +27,7 @@
             android:layout_height="0dp"
             android:gravity="center"
             android:onClick="@{() -> clickhandler.onIncrementClick(mainViewModel)}"
-            android:text="@{String.valueOf(mainViewModel.currentCounter.value)}"
+            android:text="@{String.valueOf(mainViewModel.integerCounter.value)}"
             android:textAlignment="center"
             app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toTopOf="@id/counter_button_constraintlayout"
