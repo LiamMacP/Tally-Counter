@@ -1,8 +1,8 @@
-package opensource.liamm.tallycounter.data.model;
+package opensource.liamm.tallycounter.model;
 
 import androidx.annotation.NonNull;
 
-import opensource.liamm.tallycounter.data.InvalidCounterNameException;
+import opensource.liamm.tallycounter.data.db.exceptions.InvalidCounterNameException;
 
 /**
  * Interface for a counter with a specified type.
@@ -14,12 +14,12 @@ public interface Counter<T> {
      * Gets the unique id of the counter
      * @return the id of the counter
      */
-    int getId();
+    Long getId();
 
     /**
      * Sets the unique id of the counter
      */
-    void setId(int id);
+    void setId(Long id);
 
     /**
      * Gets the name of the counter

@@ -2,36 +2,36 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e991a8edb186d22eede7354768a0cc1f",
+    "identityHash": "8b1a637058a13a8124cdd5a2c3f7c216",
     "entities": [
       {
         "tableName": "counters",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT DEFAULT '', `value` INTEGER DEFAULT 0)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL DEFAULT 'Counter', `value` INTEGER NOT NULL DEFAULT 0)",
         "fields": [
           {
-            "fieldPath": "uid",
-            "columnName": "uid",
+            "fieldPath": "id",
+            "columnName": "id",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "name",
             "columnName": "name",
             "affinity": "TEXT",
-            "notNull": false,
-            "defaultValue": "''"
+            "notNull": true,
+            "defaultValue": "'Counter'"
           },
           {
             "fieldPath": "value",
             "columnName": "value",
             "affinity": "INTEGER",
-            "notNull": false,
+            "notNull": true,
             "defaultValue": "0"
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "uid"
+            "id"
           ],
           "autoGenerate": true
         },
@@ -42,7 +42,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e991a8edb186d22eede7354768a0cc1f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8b1a637058a13a8124cdd5a2c3f7c216')"
     ]
   }
 }

@@ -1,4 +1,4 @@
-package opensource.liamm.tallycounter.data;
+package opensource.liamm.tallycounter.data.db.exceptions;
 
 import androidx.annotation.NonNull;
 
