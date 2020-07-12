@@ -1,6 +1,7 @@
 package opensource.liamm.tallycounter.ui.main.fragment;
 
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.AsyncTask;
@@ -26,11 +27,13 @@ import opensource.liamm.tallycounter.Application;
 import opensource.liamm.tallycounter.R;
 import opensource.liamm.tallycounter.data.db.entity.IntegerCounter;
 import opensource.liamm.tallycounter.databinding.MainFragmentBinding;
+import opensource.liamm.tallycounter.ui.dialogs.edit.EditCounterCallback;
+import opensource.liamm.tallycounter.ui.dialogs.edit.EditCounterDialogFragment;
 import opensource.liamm.tallycounter.ui.main.eventhandlers.ClickListener;
 import opensource.liamm.tallycounter.ui.main.viewmodel.MainViewModel;
 import opensource.liamm.tallycounter.ui.main.viewmodel.MainViewModelFactory;
 
-public class CounterFragment extends Fragment {
+public class CounterFragment extends Fragment implements EditCounterCallback {
 
     public static final String TAG = CounterFragment.class.getSimpleName();
 
@@ -41,7 +44,6 @@ public class CounterFragment extends Fragment {
     public static CounterFragment newInstance() {
         return new CounterFragment();
     }
-
 
     private CounterFragment() {
         mCompositeDisposable = new CompositeDisposable();
@@ -94,7 +96,7 @@ public class CounterFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        if (mCompositeDisposable != null && !mCompositeDisposable.isDisposed()) {
+        if (!mCompositeDisposable.isDisposed()) {
             mCompositeDisposable.clear();
         }
         super.onDestroy();
@@ -136,7 +138,6 @@ public class CounterFragment extends Fragment {
 
 
     private void loadSelectedCounter(Long id) {
-        if (mCompositeDisposable != null) {
             if (!mCompositeDisposable.isDisposed()) {
                 mCompositeDisposable.clear();
             }
@@ -145,7 +146,12 @@ public class CounterFragment extends Fragment {
                     .subscribeOn(Schedulers.computation())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(integerCounter -> mViewModel.setIntegerCounter(integerCounter)));
-        }
+
+    }
+
+    @Override
+    public void OnSaveClick(IntegerCounter integerCounter) {
+        this.mViewModel.updateCounter(integerCounter);
     }
 
     private static class InsertCounter extends AsyncTask<IntegerCounter, Void, Void> {
@@ -178,4 +184,16 @@ public class CounterFragment extends Fragment {
         }
     }
 
+    public void renameCounter() {
+        final String COUNTER_FRAGMENT_EDIT = "counter_fragment_edit";
+        IntegerCounter integerCounter = this.mViewModel.getIntegerCounter().getValue();
+
+        if (integerCounter != null) {
+            FragmentManager fragmentManager = getParentFragmentManager();
+            EditCounterDialogFragment editCounterDialog = EditCounterDialogFragment.newInstance(integerCounter, this);
+            editCounterDialog.show(fragmentManager, COUNTER_FRAGMENT_EDIT);
+        }
+    }
+
 }
+

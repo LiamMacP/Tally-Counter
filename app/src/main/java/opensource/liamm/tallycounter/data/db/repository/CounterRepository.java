@@ -69,6 +69,6 @@ public class CounterRepository implements ICounterRepository {
 
     @Override
     public void deleteAllCounters() {
-        AppDatabase.databaseReadWriteExecutor.execute(() -> mIntegerCounterDao.deleteAllCounters());
+        AppDatabase.databaseReadWriteExecutor.execute(mIntegerCounterDao::deleteAllCounters);
     }
 }

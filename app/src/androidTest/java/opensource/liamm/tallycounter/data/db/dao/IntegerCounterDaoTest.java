@@ -17,7 +17,6 @@ import io.reactivex.observers.BaseTestConsumer;
 import io.reactivex.subscribers.TestSubscriber;
 import opensource.liamm.tallycounter.data.db.database.AppDatabase;
 import opensource.liamm.tallycounter.data.db.entity.IntegerCounter;
-import opensource.liamm.tallycounter.data.db.exceptions.InvalidCounterNameException;
 
 @RunWith(AndroidJUnit4.class)
 public class IntegerCounterDaoTest {
@@ -66,7 +65,7 @@ public class IntegerCounterDaoTest {
     }
 
     @Test
-    public void updateCounterSavesData() throws InvalidCounterNameException {
+    public void updateCounterSavesData() {
         IntegerCounter integerCounter = new IntegerCounter(10L, "Test", 1);
 
         Long rowId = database.integerCounterDao().insertCounter(integerCounter).blockingGet();
@@ -101,7 +100,7 @@ public class IntegerCounterDaoTest {
         database.integerCounterDao()
                 .getAllCounters()
                 .test()
-                .awaitCount(1, BaseTestConsumer.TestWaitStrategy.SLEEP_100MS, 5000)
+                .awaitCount(1, BaseTestConsumer.TestWaitStrategy.SLEEP_1000MS, 5000)
                 .assertValue(List::isEmpty);
     }
 
