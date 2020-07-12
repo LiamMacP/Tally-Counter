@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Tally Counter</string>
+
+    <string name="dialog_edit_counter_title" translatable="true">Edit Counter</string>
+    <string name="dialog_edit_counter_name" translatable="true">Name</string>
+    <string name="dialog_edit_counter_value" translatable="true">Value</string>
+    <string name="dialog_edit_button_save" translatable="true">Save</string>
+    <string name="dialog_edit_button_cancel" translatable="true">Cancel</string>
+    <string name="dialog_edit_button_enter_name" translatable="true">Enter counter name…</string>
+    <string name="dialog_edit_button_enter_value" translatable="true">Enter counter value…</string>
 </resources>

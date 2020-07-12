@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<data>
+    <import type="opensource.liamm.tallycounter.utils.IntegerConverter"/>
+    <variable
+        name="integerCounter"
+        type="opensource.liamm.tallycounter.data.db.entity.IntegerCounter" />
+</data>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="16dp"
+        android:paddingLeft="24dp"
+        android:paddingStart="24dp"
+        android:paddingRight="24dp"
+        android:paddingEnd="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/edit_name"
+            android:text="@string/dialog_edit_counter_name" />
+
+        <EditText
+            android:id="@+id/edit_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:maxLines="1"
+            android:text="@={integerCounter.name}"
+            android:hint="@string/dialog_edit_button_enter_name"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/edit_value"
+            android:paddingTop="8dp"
+            android:text="@string/dialog_edit_counter_value" />
+
+        <EditText
+            android:id="@+id/edit_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:maxLength="8"
+            android:maxLines="1"
+            android:text="@={IntegerConverter.convertIntToString(integerCounter.value)}"
+            android:hint="@string/dialog_edit_button_enter_value"/>
+
+    </LinearLayout>
+</ScrollView>
+</layout>

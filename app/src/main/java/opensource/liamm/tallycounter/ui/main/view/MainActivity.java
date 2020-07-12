@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         CounterFragment fragment = (CounterFragment) mCurrentFragment;
 
         if (item.getItemId() == R.id.rename_counter_menu_item) {
+            fragment.renameCounter();
             return true;
         }
 
