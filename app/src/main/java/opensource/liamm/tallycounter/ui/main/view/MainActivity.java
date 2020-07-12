@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     private class TitleObserver implements Observer<IntegerCounter> {
         @Override
         public void onChanged(@NonNull IntegerCounter integerCounter) {
-            setTitle(integerCounter.getName());
+            setTitle(integerCounter.isEmptyName() ? "(Counter Unnamed)" : integerCounter.getName());
         }
     }
 

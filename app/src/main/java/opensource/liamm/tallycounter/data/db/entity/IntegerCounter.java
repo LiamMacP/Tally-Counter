@@ -17,6 +17,7 @@ public class IntegerCounter implements Counter<Integer> {
     @PrimaryKey(autoGenerate = true)
     private Long id;
 
+    @SuppressWarnings("NotNullFieldNotInitialized")
     @ColumnInfo(defaultValue = DEFAULT_NAME)
     @NonNull
     private String name;
@@ -37,13 +38,17 @@ public class IntegerCounter implements Counter<Integer> {
     @Ignore
     public IntegerCounter(Long id, @NonNull String name, @NonNull Integer value) {
         this.id = id;
-        this.name = name;
+
+        this.setName(name);
+
         this.value = value;
     }
 
     public IntegerCounter(IntegerCounter counter) {
         this.id = counter.id;
-        this.name = counter.name;
+
+        this.setName(counter.name);
+
         this.value = counter.value;
     }
 
