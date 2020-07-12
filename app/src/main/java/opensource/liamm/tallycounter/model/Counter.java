@@ -2,8 +2,6 @@ package opensource.liamm.tallycounter.model;
 
 import androidx.annotation.NonNull;
 
-import opensource.liamm.tallycounter.data.db.exceptions.InvalidCounterNameException;
-
 /**
  * Interface for a counter with a specified type.
  * @param <T> the type that the counter should use
@@ -32,7 +30,7 @@ public interface Counter<T> {
      * Sets the name of the counter
      * @param name the new name of the counter
      */
-    void setName(@NonNull final String name) throws InvalidCounterNameException;
+    void setName(@NonNull final String name);
 
     /**
      * Gets the value of the counter

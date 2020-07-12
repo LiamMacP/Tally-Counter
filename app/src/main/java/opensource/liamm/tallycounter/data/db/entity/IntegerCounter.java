@@ -6,8 +6,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import opensource.liamm.tallycounter.data.db.exceptions.InvalidCounterNameException;
 import opensource.liamm.tallycounter.model.Counter;
+import opensource.liamm.tallycounter.utils.StringUtils;
 
 @Entity(tableName = "counters")
 public class IntegerCounter implements Counter<Integer> {
@@ -25,8 +25,12 @@ public class IntegerCounter implements Counter<Integer> {
     @NonNull
     private Integer value;
 
+    @Ignore
+    private boolean emptyName;
+
     public IntegerCounter() {
         this.name = DEFAULT_NAME;
+        this.emptyName = false;
         this.value = 0;
     }
 
@@ -60,10 +64,8 @@ public class IntegerCounter implements Counter<Integer> {
     }
 
     @Override
-    public void setName(@NonNull String name) throws InvalidCounterNameException {
-        if (name.isEmpty()) {
-            throw new InvalidCounterNameException("Provided name is not valid");
-        }
+    public void setName(@NonNull String name) {
+        this.emptyName = name.equals(StringUtils.EMPTY);
 
         this.name = name;
     }
@@ -104,5 +106,9 @@ public class IntegerCounter implements Counter<Integer> {
     @Override
     public void reset() {
         this.value = 0;
+    }
+
+    public boolean isEmptyName() {
+        return emptyName;
     }
 }
