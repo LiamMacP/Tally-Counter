@@ -100,7 +100,7 @@ public class IntegerCounterDaoTest {
         database.integerCounterDao()
                 .getAllCounters()
                 .test()
-                .awaitCount(1, BaseTestConsumer.TestWaitStrategy.SLEEP_100MS, 5000)
+                .awaitCount(1, BaseTestConsumer.TestWaitStrategy.SLEEP_1000MS, 5000)
                 .assertValue(List::isEmpty);
     }
 
